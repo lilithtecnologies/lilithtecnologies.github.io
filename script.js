@@ -392,6 +392,9 @@ const translations = {
 
 // Cambiar idioma
 function changeLanguage(lang) {
+    // Actualizar atributo lang del HTML para SEO y accesibilidad
+    document.documentElement.lang = lang;
+    
     // Actualizar botón de idioma
     languageBtnText.textContent = lang.toUpperCase();
     
@@ -575,10 +578,20 @@ function init3DScene() {
     
     // Variables para animación
     let time = 0;
+    let frameSkip = 0;
     
     // Animación
     function animate() {
         requestAnimationFrame(animate);
+        
+        // Si la animación está pausada, reducir tasa de frames
+        if (!animationRunning) {
+            frameSkip++;
+            if (frameSkip < 2) return; // Renderizar solo cada 2 frames
+            frameSkip = 0;
+        } else {
+            frameSkip = 0;
+        }
         
         time += 0.01;
         
@@ -741,3 +754,45 @@ animationStyles.textContent = `
     }
 `;
 document.head.appendChild(animationStyles);
+
+// Automatizar el año del copyright
+function updateCopyrightYear() {
+    const currentYear = new Date().getFullYear();
+    const copyrightElements = document.querySelectorAll('[data-translate="footer_copyright"]');
+    copyrightElements.forEach(element => {
+        const text = element.innerHTML;
+        const updatedText = text.replace(/© \d{4}/, `© ${currentYear}`);
+        element.innerHTML = updatedText;
+    });
+}
+
+// Ejecutar la actualización del año al cargar la página
+updateCopyrightYear();
+
+// Después de cambiar el idioma, actualizar el año también
+const originalChangeLanguage = changeLanguage;
+changeLanguage = function(lang) {
+    originalChangeLanguage(lang);
+    updateCopyrightYear();
+};
+
+// IntersectionObserver para pausar/reanudar la animación 3D
+let animationRunning = true;
+const heroSection = document.querySelector('.hero');
+const webglContainer = document.getElementById('webgl-container');
+
+if (heroSection && webglContainer) {
+    const animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animationRunning = true;
+            } else {
+                animationRunning = false;
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    animationObserver.observe(heroSection);
+}
