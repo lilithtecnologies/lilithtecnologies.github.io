@@ -1,5 +1,8 @@
 // Script principal que inicializa la aplicación
 document.addEventListener('DOMContentLoaded', () => {
+    // Inicializar PWA
+    pwaManager.init();
+    
     // Inicializar el tema
     theme.init();
     

@@ -373,6 +373,11 @@ class UIManager {
             this.closeDeleteModal();
             this.showNotification('Transacción eliminada correctamente');
             this.render();
+            
+            // Si el historial está visible, renderizarlo también
+            if (document.getElementById('historial-section').classList.contains('active')) {
+                this.renderHistory();
+            }
         }
     }
 
@@ -392,6 +397,11 @@ class UIManager {
         this.closeResetModal();
         this.showNotification('Datos restablecidos correctamente');
         this.render();
+        
+        // Si el historial está visible, renderizarlo también
+        if (document.getElementById('historial-section').classList.contains('active')) {
+            this.renderHistory();
+        }
     }
 
     // Configurar botón de tema
