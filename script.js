@@ -426,223 +426,252 @@ languageOptions.forEach(option => {
     });
 });
 
-// Animación 3D mejorada con Three.js
-function init3DScene() {
-    const container = document.getElementById('webgl-container');
+// Galaxia Neural Interactiva - Versión simplificada y visualmente atractiva
+function initGalaxy() {
+    const container = document.getElementById('galaxy-container');
+    if (!container) return;
     
-    // Verificar si Three.js está disponible
-    if (typeof THREE === 'undefined') {
-        console.error('Three.js no está cargado');
-        container.innerHTML = '<div class="fallback-visual"><div class="fallback-logo"></div><div class="fallback-particles"></div></div>';
-        return;
+    // Crear canvas
+    const canvas = document.createElement('canvas');
+    canvas.id = 'galaxy-canvas';
+    container.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    
+    // Configuración
+    const config = {
+        particleCount: 120,
+        particleSize: 2,
+        connectionDistance: 120,
+        mouseRepelRadius: 100,
+        mouseRepelStrength: 3,
+        speed: 0.5,
+        lineOpacity: 0.2,
+        primaryColor: getComputedStyle(document.documentElement)
+            .getPropertyValue('--primary-color').trim() || '#10b981'
+    };
+    
+    // Ajustar tamaño del canvas
+    function resizeCanvas() {
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
     }
     
-    // Configuración básica
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    container.appendChild(renderer.domElement);
-    
-    // Luces mejoradas
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
-    
-    const directionalLight1 = new THREE.DirectionalLight(0x10b981, 0.8);
-    directionalLight1.position.set(5, 5, 5);
-    scene.add(directionalLight1);
-    
-    const directionalLight2 = new THREE.DirectionalLight(0x34d399, 0.4);
-    directionalLight2.position.set(-5, -5, -5);
-    scene.add(directionalLight2);
-    
-    // Geometrías principales - estructura fractal
-    const mainGroup = new THREE.Group();
-    scene.add(mainGroup);
-    
-    // Crear estructura fractal recursiva
-    function createFractal(iterations, size, position) {
-        const group = new THREE.Group();
+    // Clase Partícula
+    class Particle {
+        constructor() {
+            this.reset();
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+        }
         
-        // Geometría principal en esta iteración
-        const geometry = new THREE.OctahedronGeometry(size, 0);
-        const material = new THREE.MeshPhongMaterial({ 
-            color: 0x10b981,
-            shininess: 100,
-            transparent: true,
-            opacity: 0.7,
-            wireframe: false
-        });
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * config.speed;
+            this.vy = (Math.random() - 0.5) * config.speed;
+            this.size = config.particleSize + Math.random() * 2;
+            this.opacity = 0.3 + Math.random() * 0.7;
+            this.color = config.primaryColor;
+            this.pulse = 0;
+            this.pulseSpeed = 0.01 + Math.random() * 0.02;
+        }
         
-        const mesh = new THREE.Mesh(geometry, material);
-        group.add(mesh);
-        
-        // Si hay más iteraciones, crear hijos
-        if (iterations > 0) {
-            const childSize = size * 0.6;
-            const positions = [
-                new THREE.Vector3(childSize * 1.5, 0, 0),
-                new THREE.Vector3(-childSize * 1.5, 0, 0),
-                new THREE.Vector3(0, childSize * 1.5, 0),
-                new THREE.Vector3(0, -childSize * 1.5, 0),
-                new THREE.Vector3(0, 0, childSize * 1.5),
-                new THREE.Vector3(0, 0, -childSize * 1.5)
-            ];
+        update(mouse) {
+            // Pulsación
+            this.pulse += this.pulseSpeed;
+            const pulseSize = Math.sin(this.pulse) * 0.5 + 1;
+            const currentSize = this.size * pulseSize;
             
-            positions.forEach(pos => {
-                const child = createFractal(iterations - 1, childSize, pos);
-                child.position.copy(pos);
-                group.add(child);
-            });
-        }
-        
-        return group;
-    }
-    
-    const fractal = createFractal(2, 1.5, new THREE.Vector3(0, 0, 0));
-    mainGroup.add(fractal);
-    
-    // Añadir partículas en esferas concéntricas
-    const particleCount = 800;
-    const particles = new THREE.BufferGeometry();
-    const particlePositions = new Float32Array(particleCount * 3);
-    const particleColors = new Float32Array(particleCount * 3);
-    
-    for (let i = 0; i < particleCount * 3; i += 3) {
-        // Distribuir en esferas concéntricas
-        const radius = 2 + Math.random() * 3;
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.random() * Math.PI;
-        
-        particlePositions[i] = radius * Math.sin(phi) * Math.cos(theta);
-        particlePositions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
-        particlePositions[i + 2] = radius * Math.cos(phi);
-        
-        // Colores basados en la posición
-        particleColors[i] = 0.1 + Math.random() * 0.2; // R
-        particleColors[i + 1] = 0.7 + Math.random() * 0.3; // G
-        particleColors[i + 2] = 0.5 + Math.random() * 0.2; // B
-    }
-    
-    particles.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-    particles.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
-    
-    const particleMaterial = new THREE.PointsMaterial({
-        size: 0.05,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.8
-    });
-    
-    const particleSystem = new THREE.Points(particles, particleMaterial);
-    scene.add(particleSystem);
-    
-    // Añadir líneas entre partículas cercanas
-    const linesGeometry = new THREE.BufferGeometry();
-    const linesPositions = [];
-    
-    for (let i = 0; i < particleCount; i += 5) {
-        const i3 = i * 3;
-        for (let j = i + 5; j < particleCount; j += 5) {
-            const j3 = j * 3;
-            const dx = particlePositions[i3] - particlePositions[j3];
-            const dy = particlePositions[i3 + 1] - particlePositions[j3 + 1];
-            const dz = particlePositions[i3 + 2] - particlePositions[j3 + 2];
-            const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-            
-            if (distance < 1.5) {
-                linesPositions.push(
-                    particlePositions[i3], particlePositions[i3 + 1], particlePositions[i3 + 2],
-                    particlePositions[j3], particlePositions[j3 + 1], particlePositions[j3 + 2]
-                );
-            }
-        }
-    }
-    
-    linesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linesPositions, 3));
-    
-    const linesMaterial = new THREE.LineBasicMaterial({
-        color: 0x34d399,
-        transparent: true,
-        opacity: 0.2
-    });
-    
-    const lines = new THREE.LineSegments(linesGeometry, linesMaterial);
-    scene.add(lines);
-    
-    // Posición de cámara
-    camera.position.z = 8;
-    
-    // Variables para animación
-    let time = 0;
-    let frameSkip = 0;
-    
-    // Animación
-    function animate() {
-        requestAnimationFrame(animate);
-        
-        // Si la animación está pausada, reducir tasa de frames
-        if (!animationRunning) {
-            frameSkip++;
-            if (frameSkip < 2) return; // Renderizar solo cada 2 frames
-            frameSkip = 0;
-        } else {
-            frameSkip = 0;
-        }
-        
-        time += 0.01;
-        
-        // Rotación principal
-        mainGroup.rotation.x = time * 0.1;
-        mainGroup.rotation.y = time * 0.15;
-        mainGroup.rotation.z = time * 0.05;
-        
-        // Animación de la estructura fractal
-        fractal.children.forEach((child, index) => {
-            if (child instanceof THREE.Mesh) {
-                child.rotation.x = time * 0.05 * (index % 3 + 1);
-                child.rotation.y = time * 0.03 * (index % 2 + 1);
+            // Interacción con mouse
+            if (mouse.x && mouse.y) {
+                const dx = this.x - mouse.x;
+                const dy = this.y - mouse.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                // Pulso de opacidad
-                const pulse = Math.sin(time * 2 + index) * 0.15 + 0.85;
-                child.material.opacity = 0.7 * pulse;
+                if (distance < config.mouseRepelRadius) {
+                    const force = (config.mouseRepelRadius - distance) / config.mouseRepelRadius;
+                    const angle = Math.atan2(dy, dx);
+                    this.vx += Math.cos(angle) * force * config.mouseRepelStrength;
+                    this.vy += Math.sin(angle) * force * config.mouseRepelStrength;
+                }
             }
-        });
+            
+            // Movimiento
+            this.x += this.vx;
+            this.y += this.vy;
+            
+            // Rebote en bordes
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            
+            // Mantener dentro del canvas
+            this.x = Math.max(0, Math.min(canvas.width, this.x));
+            this.y = Math.max(0, Math.min(canvas.height, this.y));
+            
+            // Suavizar movimiento
+            this.vx *= 0.99;
+            this.vy *= 0.99;
+            
+            return { x: this.x, y: this.y, size: currentSize, opacity: this.opacity };
+        }
         
-        // Rotación de partículas
-        particleSystem.rotation.x = time * 0.02;
-        particleSystem.rotation.y = time * 0.03;
-        
-        // Animación de líneas
-        lines.rotation.y = time * 0.01;
-        
-        // Movimiento suave de cámara
-        camera.position.x = Math.sin(time * 0.1) * 0.5;
-        camera.position.y = Math.cos(time * 0.07) * 0.3;
-        camera.lookAt(scene.position);
-        
-        renderer.render(scene, camera);
+        draw(ctx, state) {
+            ctx.beginPath();
+            ctx.arc(state.x, state.y, state.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color.replace(')', `, ${state.opacity})`).replace('rgb', 'rgba');
+            ctx.fill();
+            
+            // Brillo interior
+            ctx.beginPath();
+            ctx.arc(state.x, state.y, state.size * 0.4, 0, Math.PI * 2);
+            ctx.fillStyle = this.color.replace(')', `, ${state.opacity * 0.8})`).replace('rgb', 'rgba');
+            ctx.fill();
+        }
     }
     
+    // Inicializar partículas
+    const particles = [];
+    for (let i = 0; i < config.particleCount; i++) {
+        particles.push(new Particle());
+    }
+    
+    // Mouse tracking
+    const mouse = { x: 0, y: 0 };
+    container.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+    });
+    
+    container.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+    });
+    
+    // Animación principal
+    let animationId;
+    function animate() {
+        resizeCanvas();
+        
+        // Fondo con gradiente sutil
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, 'rgba(16, 185, 129, 0.02)');
+        gradient.addColorStop(1, 'rgba(52, 211, 153, 0.01)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Actualizar y dibujar partículas
+        const particleStates = particles.map(p => p.update(mouse));
+        
+        // Dibujar conexiones primero (para que queden detrás)
+        ctx.strokeStyle = config.primaryColor.replace(')', `, ${config.lineOpacity})`).replace('rgb', 'rgba');
+        ctx.lineWidth = 0.8;
+        
+        for (let i = 0; i < particleStates.length; i++) {
+            for (let j = i + 1; j < particleStates.length; j++) {
+                const dx = particleStates[i].x - particleStates[j].x;
+                const dy = particleStates[i].y - particleStates[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < config.connectionDistance) {
+                    const opacity = 1 - (distance / config.connectionDistance);
+                    ctx.globalAlpha = opacity * config.lineOpacity;
+                    ctx.beginPath();
+                    ctx.moveTo(particleStates[i].x, particleStates[i].y);
+                    ctx.lineTo(particleStates[j].x, particleStates[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+        
+        ctx.globalAlpha = 1;
+        
+        // Dibujar partículas
+        particleStates.forEach((state, i) => {
+            particles[i].draw(ctx, state);
+        });
+        
+        // Efecto de brillo en partículas cercanas al mouse
+        if (mouse.x && mouse.y) {
+            ctx.beginPath();
+            const gradient = ctx.createRadialGradient(
+                mouse.x, mouse.y, 0,
+                mouse.x, mouse.y, config.mouseRepelRadius
+            );
+            gradient.addColorStop(0, config.primaryColor.replace(')', ', 0.3)').replace('rgb', 'rgba'));
+            gradient.addColorStop(1, 'transparent');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+        
+        animationId = requestAnimationFrame(animate);
+    }
+    
+    // Control de animación para eficiencia
+    let isAnimating = true;
+    
+    // Intersection Observer para pausar cuando no es visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            isAnimating = entry.isIntersecting;
+            if (isAnimating && !animationId) {
+                animationId = requestAnimationFrame(animate);
+            } else if (!isAnimating && animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    observer.observe(container);
+    
+    // Iniciar animación
+    resizeCanvas();
     animate();
     
-    // Redimensionar
-    function onWindowResize() {
-        camera.aspect = container.clientWidth / container.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
-    }
+    // Manejar redimensionamiento
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        particles.forEach(p => {
+            if (p.x > canvas.width || p.y > canvas.height) {
+                p.reset();
+            }
+        });
+    });
     
-    window.addEventListener('resize', onWindowResize);
+    return () => {
+        if (animationId) cancelAnimationFrame(animationId);
+        observer.disconnect();
+    };
 }
 
-// Inicializar escena 3D cuando la página esté cargada
+// Crear partículas flotantes decorativas (opcional)
+function createFloatingDots() {
+    const container = document.querySelector('.visual-overlay');
+    if (!container) return;
+    
+    for (let i = 0; i < 8; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'floating-dot';
+        dot.style.cssText = `
+            width: ${3 + Math.random() * 5}px;
+            height: ${3 + Math.random() * 5}px;
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+            background: var(--primary-color);
+            animation-delay: ${Math.random() * 5}s;
+        `;
+        container.appendChild(dot);
+    }
+}
+
+// Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar escena 3D
-    setTimeout(init3DScene, 1000);
+    // Inicializar galaxia neural
+    setTimeout(initGalaxy, 1000);
+    
+    // Crear partículas flotantes decorativas
+    createFloatingDots();
     
     // Añadir atributos data-translate para multilenguaje
     document.querySelectorAll('[data-translate]').forEach(element => {
