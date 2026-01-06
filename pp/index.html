@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad - Extensión de Chrome</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --text-color: #1f2937;
+            --light-text: #6b7280;
+            --bg-color: #ffffff;
+            --card-bg: #f9fafb;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #3b82f6;
+            --secondary-color: #60a5fa;
+            --accent-color: #93c5fd;
+            --text-color: #f9fafb;
+            --light-text: #d1d5db;
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --border-color: #374151;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: var(--transition);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--radius);
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .last-updated {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 25px 0 15px;
+            font-size: 1.4rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .warning {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .success {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-left: 4px solid #22c55e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .info {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .data-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .data-table tr:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        .permissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .permission-item {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .permission-name {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 25px;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, var(--card-bg), var(--bg-color));
+            padding: 25px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
+
+        .contact-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            border-top: 2px solid var(--border-color);
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .permissions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .print-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lang-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Política de Privacidad Integral</h1>
+            <p class="subtitle">Compromiso total con la protección de datos, transparencia y seguridad digital</p>
+            <div class="last-updated" id="currentDate"></div>
+        </header>
+
+        <div class="toggle-container">
+            <div>
+                <h3>Preferencias de visualización</h3>
+                <p>Selecciona el tema que prefieras para una mejor experiencia de lectura</p>
+            </div>
+            <div class="theme-toggle" id="themeToggle">
+                <span class="theme-icon" id="themeIcon">🌙</span>
+                <span id="themeText">Modo Oscuro</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📋 Declaración de Principios</h2>
+            <p>Esta Política de Privacidad establece cómo manejamos la información en nuestras extensiones de Chrome. Creemos firmemente en el derecho fundamental a la privacidad digital y nos comprometemos a proteger todos los datos de usuario con los más altos estándares de seguridad.</p>
+            
+            <div class="info">
+                <strong>Compromiso Fundamental:</strong> Ninguna de nuestras extensiones recopila, almacena, transmite o comercializa datos personales de usuarios. Todo el procesamiento ocurre localmente en su dispositivo.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔍 Alcance y Aplicación</h2>
+            <p>Esta política se aplica a todas las extensiones de Chrome desarrolladas por nosotros, incluyendo pero no limitándose a:</p>
+            <ul>
+                <li><strong>Extensiones de productividad</strong> (gestores de tiempo, bloqueadores de distracciones)</li>
+                <li><strong>Herramientas de desarrollo</strong> (debuggers, analizadores de código)</li>
+                <li><strong>Utilidades de navegación</strong> (gestores de pestañas, buscadores)</li>
+                <li><strong>Extensiones de accesibilidad</strong> (lectores de texto, modificadores de contraste)</li>
+            </ul>
+            
+            <div class="warning">
+                <strong>Nota Importante:</strong> Esta política NO aplica a sitios web de terceros que puedan integrarse o mencionarse. Revise siempre las políticas de privacidad de sitios externos.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🚫 Lo que NO hacemos</h2>
+            <div class="permissions-grid">
+                <div class="permission-item">
+                    <div class="permission-name">Sin Recolección de Datos Personales</div>
+                    <p>No solicitamos ni almacenamos nombres, emails, edades, direcciones, números de identificación o cualquier dato identificable.</p>
+                </div>
+                <div class="permission-item">
+                    <div class="permission-name">Sin Análisis de Comportamiento</div>
+                    <p>No rastreamos clics, desplazamientos, tecleo, movimientos de mouse, ni patrones de navegación.</p>
+                </div>
+                <div class="permission-item">
+                    <div class="permission-name">Sin Geolocalización</div>
+                    <p>No accedemos a ubicación GPS, dirección IP, región o información geográfica de ningún tipo.</p>
+                </div>
+                <div class="permission-item">
+                    <div class="permission-name">Sin Historial de Navegación</div>
+                    <p>No monitoreamos, registramos ni analizamos las páginas web que visita, títulos o duración de visitas.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>💾 Almacenamiento Local</h2>
+            <p>Nuestras extensiones utilizan exclusivamente el almacenamiento local del navegador para:</p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Tipo de Dato</th>
+                        <th>Propósito</th>
+                        <th>Ejemplos</th>
+                        <th>Eliminación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Preferencias de Usuario</strong></td>
+                        <td>Personalizar la experiencia</td>
+                        <td>Tema (claro/oscuro), idioma, atajos de teclado</td>
+                        <td>Al desinstalar o resetear configuración</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Configuración de Funcionalidad</strong></td>
+                        <td>Habilitar características principales</td>
+                        <td>Tiempos de Pomodoro, sitios bloqueados, listas de tareas</td>
+                        <td>Al desinstalar la extensión</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Estado de Sesión</strong></td>
+                        <td>Mantener continuidad</td>
+                        <td>Tareas pendientes, progreso actual, temporizadores activos</td>
+                        <td>Al cerrar el navegador o limpiar datos</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="success">
+                <strong>Ventaja de Seguridad:</strong> Como los datos nunca salen de su dispositivo, están protegidos contra filtraciones, hackeos o acceso gubernamental no autorizado.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔐 Permisos de Chrome - Justificación Completa</h2>
+            <p>Cada permiso solicitado está estrictamente justificado y limitado al mínimo necesario:</p>
+            
+            <h3>Permisos Comunes y su Uso Específico</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Permiso</th>
+                        <th>Justificación Técnica</th>
+                        <th>Impacto en Privacidad</th>
+                        <th>Control del Usuario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>storage</code></td>
+                        <td>Guardar configuración localmente sin servidores</td>
+                        <td>Mínimo - solo datos que usted ingresa</td>
+                        <td>Puede limpiar datos en cualquier momento</td>
+                    </tr>
+                    <tr>
+                        <td><code>activeTab</code></td>
+                        <td>Interactuar con pestaña activa temporalmente</td>
+                        <td>Bajo - solo durante uso explícito</td>
+                        <td>Se activa solo al hacer clic en la extensión</td>
+                    </tr>
+                    <tr>
+                        <td><code>declarativeNetRequest</code></td>
+                        <td>Bloquear sitios eficientemente</td>
+                        <td>Moderado - bloquea contenido</td>
+                        <td>Lista 100% configurable por usted</td>
+                    </tr>
+                    <tr>
+                        <td><code>notifications</code></td>
+                        <td>Mostrar alertas del sistema</td>
+                        <td>Mínimo - notificaciones locales</td>
+                        <td>Puede desactivar en configuración</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>🛡️ Medidas de Seguridad Implementadas</h2>
+            <p>Implementamos múltiples capas de seguridad para garantizar la protección de datos:</p>
+            
+            <ol>
+                <li><strong>Content Security Policy (CSP) Estricta:</strong> Bloquea ejecución de scripts externos, evita XSS attacks</li>
+                <li><strong>Sandboxing del Navegador:</strong> Cada extensión opera en un entorno aislado</li>
+                <li><strong>Sin Evaluación Dinámica:</strong> No usamos <code>eval()</code>, <code>Function()</code> o similares</li>
+                <li><strong>Validación de Entrada:</strong> Todo dato de usuario es sanitizado antes de procesar</li>
+                <li><strong>Actualizaciones Regulares:</strong> Parches de seguridad aplicados inmediatamente</li>
+                <li><strong>Código de Código Abierto:</strong> Transparencia total del funcionamiento</li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h2>👥 Compartir con Terceros</h2>
+            <p><strong>CERO COMPARTICIÓN DE DATOS.</strong> No vendemos, alquilamos, intercambiamos o transferimos datos a:</p>
+            <ul>
+                <li>Anunciantes o redes publicitarias</li>
+                <li>Analíticas de marketing</li>
+                <li>Plataformas de redes sociales</li>
+                <li>Servicios de tracking</li>
+                <li>Socios comerciales</li>
+                <li>Gobiernos o autoridades (excepto requerimiento legal válido)</li>
+            </ul>
+            
+            <div class="warning">
+                <strong>Excepción Legal:</strong> Solo compartiríamos información si fuéramos legalmente obligados mediante orden judicial válida, y notificaríamos al usuario cuando la ley lo permita.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>👶 Protección de Menores</h2>
+            <p>Nuestras extensiones están diseñadas para ser seguras para todos los usuarios, incluyendo menores:</p>
+            <ul>
+                <li>No recopilamos datos de edad ni verificamos la mayoría de edad</li>
+                <li>Contenido 100% apropiado para todas las edades</li>
+                <li>Sin integraciones con redes sociales o chat</li>
+                <li>Sin publicidad ni contenido inapropiado</li>
+                <li>Recomendamos supervisión parental en menores de 13 años</li>
+            </ul>
+            
+            <p>Si es padre/madre y descubre que su hijo nos ha proporcionado datos sin su consentimiento, contáctenos inmediatamente para eliminarlos.</p>
+        </div>
+
+        <div class="card">
+            <h2>🌍 Cumplimiento Normativo Internacional</h2>
+            <p>Nuestras prácticas están alineadas con regulaciones globales:</p>
+            
+            <div class="permissions-grid">
+                <div class="permission-item">
+                    <div class="permission-name">GDPR (UE)</div>
+                    <p>Cumplimos con el Reglamento General de Protección de Datos. No procesamos datos personales, por lo que muchas obligaciones no aplican, pero superamos los requisitos.</p>
+                </div>
+                <div class="permission-item">
+                    <div class="permission-name">CCPA (California)</div>
+                    <p>Respetamos los derechos de los consumidores de California. No vendemos datos (ni los tenemos). Puede ejercer sus derechos contactándonos.</p>
+                </div>
+                <div class="permission-item">
+                    <div class="permission-name">LGPD (Brasil)</div>
+                    <p>Alineados con la Lei Geral de Proteção de Dados. Procesamiento mínimo, transparencia y seguridad garantizados.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📝 Sus Derechos</h2>
+            <p>Usted tiene pleno control sobre sus datos:</p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Derecho</th>
+                        <th>Descripción</th>
+                        <th>Cómo Ejercerlo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Acceso</strong></td>
+                        <td>Ver qué datos almacenamos</td>
+                        <td>Use la configuración de la extensión o contáctenos</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Eliminación</strong></td>
+                        <td>Borrar todos sus datos</td>
+                        <td>Desinstale la extensión o limpie datos del navegador</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rectificación</strong></td>
+                        <td>Corregir datos inexactos</td>
+                        <td>Modifique la configuración directamente</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Portabilidad</strong></td>
+                        <td>Obtener sus datos en formato legible</td>
+                        <td>Contáctenos para asistencia</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Oposición</strong></td>
+                        <td>Oponerse al procesamiento</td>
+                        <td>Desactive funcionalidades o desinstale</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>🔄 Cambios en esta Política</h2>
+            <p>Podemos actualizar esta política para reflejar:</p>
+            <ul>
+                <li>Nuevas funcionalidades de la extensión</li>
+                <li>Cambios en leyes de privacidad</li>
+                <li>Mejoras en prácticas de seguridad</li>
+                <li>Retroalimentación de usuarios</li>
+            </ul>
+            
+            <p><strong>Notificaremos cambios importantes:</strong></p>
+            <ol>
+                <li>Actualizando la fecha "Última modificación" al inicio</li>
+                <li>Publicando aviso en la página de la extensión en Chrome Web Store</li>
+                <li>Incluyendo resumen de cambios en notas de actualización</li>
+            </ol>
+            
+            <p>El uso continuado después de cambios constituye aceptación de la política revisada.</p>
+        </div>
+
+        <div class="contact-info">
+            <h2>📧 Contacto y Ejercicio de Derechos</h2>
+            <p>Para preguntas, preocupaciones o ejercicio de derechos de privacidad:</p>
+            
+            <p><strong>Correo Electrónico:</strong> <a href="mailto:privacidad@tudominio.com">privacidad@tudominio.com</a></p>
+            <p><strong>Para Denuncias de Seguridad:</strong> <a href="mailto:seguridad@tudominio.com">seguridad@tudominio.com</a></p>
+            <p><strong>Tiempo de Respuesta:</strong> Intentamos responder en 72 horas hábiles</p>
+            <p><strong>Proceso de Verificación:</strong> Podemos solicitar información para verificar su identidad y prevenir fraudes</p>
+            
+            <div class="info">
+                <strong>Transparencia Total:</strong> Publicamos informes bianuales de transparencia en nuestro sitio web, detallando solicitudes gubernamentales (si las hay) y acciones tomadas.
+            </div>
+        </div>
+
+        <button class="print-btn" onclick="window.print()">🖨️ Imprimir esta Política</button>
+    </div>
+
+    <footer>
+        <p>© <span id="currentYear"></span> - Política de Privacidad para Extensiones de Chrome</p>
+        <p>Esta política se actualizó por última vez: <span id="lastUpdated"></span></p>
+        <p>ID del Documento: PP-EXT-CHROME-v2.1</p>
+    </footer>
+
+    <script>
+        // Configurar fecha actual
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        document.getElementById('currentDate').textContent = `Última actualización: ${formattedDate}`;
+        document.getElementById('lastUpdated').textContent = formattedDate;
+        document.getElementById('currentYear').textContent = currentDate.getFullYear();
+
+        // Toggle de tema
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        
+        // Verificar preferencia guardada o del sistema
+        const savedTheme = localStorage.getItem('theme') || 
+                          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Modo Claro';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Modo Oscuro';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Modo Claro';
+            }
+        });
+
+        // Smooth scroll para anclas
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Resaltar sección activa al hacer scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        // Observar todas las tarjetas
+        document.querySelectorAll('.card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Copiar dirección de contacto al hacer clic
+        document.querySelectorAll('.contact-info a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (!this.getAttribute('href').startsWith('mailto:')) return;
+                
+                const email = this.getAttribute('href').replace('mailto:', '');
+                navigator.clipboard.writeText(email).then(() => {
+                    const originalText = this.textContent;
+                    this.textContent = '¡Copiado al portapapeles!';
+                    this.style.color = '#10b981';
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.color = '';
+                    }, 2000);
+                });
+            });
+        });
+
+        // Añadir clase de carga inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
