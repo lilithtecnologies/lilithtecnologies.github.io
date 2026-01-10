@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AsherNet - Terminal de Comunicaciones</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-terminal-bg: #000000;
+            --color-terminal-text: #00FF00;
+            --color-terminal-text-dim: #00AA00;
+            --color-terminal-glow: #00FF00;
+            --color-terminal-border: #003300;
+            --color-terminal-highlight: #00AA00;
+            --color-terminal-error: #FF0033;
+            --color-terminal-success: #00FF00;
+            --color-terminal-command: #FFFF00;
+        }
+    </style>
+    <link rel="preload" href="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" as="script">
+    <link rel="preload" href="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js" as="script">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="terminal-glitch"></div>
+    <div class="scanlines"></div>
+    
+    <div id="startup-screen">
+        <div class="startup-content">
+            <div class="startup-text">INICIALIZANDO ASHERNET...</div>
+        </div>
+    </div>
+    
+    <div id="binary-animation"></div>
+    
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">
+                <span class="terminal-logo">[ASHERNET v1.0]</span>
+                <span class="terminal-subtitle">// SISTEMA DE COMUNICACIONES SEGURAS</span>
+            </div>
+            <div class="terminal-status">
+                <span class="status-indicator">● CONECTADO</span>
+                <span class="status-time" id="terminal-time">--:--:--</span>
+            </div>
+        </div>
+        
+        <div class="terminal-output" id="terminal-output"></div>
+        
+        <div class="terminal-input-line">
+            <span class="prompt">ASHERNET:~$ </span>
+            <input type="text" 
+                   class="terminal-input" 
+                   id="terminal-input" 
+                   autocomplete="off" 
+                   spellcheck="false"
+                   placeholder="Escriba su mensaje o comando...">
+            <span class="input-caret">█</span>
+        </div>
+        
+        <div class="terminal-footer">
+            <span>[ESTADO]</span>
+            <span class="footer-item" id="connection-status">● CONEXIÓN ACTIVA</span>
+            <span class="footer-item" id="message-count">MENSAJES: 0</span>
+            <span class="footer-item">CIFRADO: ACTIVO</span>
+            <span class="user-counter">USUARIOS: <span id="user-count">0</span></span>
+        </div>
+    </div>
+</body>
+</html>
