@@ -1,237 +1,165 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lilith Technologies - La arquitectura de la evolución humana</title>
+    <title>Lilith Technologies | Arquitectura de la Evolución Humana</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="assets/icono.png">
 </head>
 <body>
-    <!-- Canvas para la animación de fondo -->
-    <canvas id="neuralCanvas"></canvas>
-    
-    <div class="container">
-        <!-- Header/Navegación -->
-        <header class="header">
-            <div class="logo">
-                <h1 class="logo-text">LILITH<span class="accent">TECH</span></h1>
-            </div>
-            <nav class="nav">
-                <button class="menu-toggle" id="menuToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <ul class="nav-list" id="navList">
+    <!-- Animación de cortina de entrada -->
+    <div class="curtain-animation">
+        <div class="curtain-panel"></div>
+        <div class="curtain-panel"></div>
+        <div class="curtain-panel"></div>
+        <div class="curtain-panel"></div>
+        <div class="curtain-panel"></div>
+    </div>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <img src="assets/icono.png" alt="Lilith Technologies" class="logo-icon">
+                <div class="logo-text-container">
+                    <span class="logo-text">LILITH</span>
+                    <span class="logo-sub">TECHNOLOGIES</span>
+                </div>
+            </a>
+            
+            <div class="nav-links-container">
+                <ul class="nav-links">
                     <li><a href="#inicio" class="nav-link">Inicio</a></li>
-                    <li><a href="#nosotros" class="nav-link">Sobre Nosotros</a></li>
-                    <li><a href="#fundador" class="nav-link">Fundador</a></li>
+                    <li><a href="#acerca" class="nav-link">Acerca de</a></li>
                     <li><a href="#servicios" class="nav-link">Servicios</a></li>
                     <li><a href="#contacto" class="nav-link">Contacto</a></li>
                 </ul>
-            </nav>
-        </header>
+                
+                <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo claro/oscuro">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
+                <button class="nav-toggle" id="navToggle" aria-label="Menú de navegación">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-        <!-- Sección Inicio -->
-        <section id="inicio" class="section hero-section">
-            <div class="hero-content">
-                <h2 class="hero-title">LILITH TECHNOLOGIES</h2>
-                <p class="hero-subtitle">La arquitectura de la evolución humana</p>
-                <p class="hero-description">Integrando investigación, consultoría y desarrollo tecnológico para construir el futuro.</p>
-                <div class="hero-actions">
-                    <a href="#servicios" class="btn btn-primary">Nuestros Servicios</a>
-                    <a href="#contacto" class="btn btn-secondary">Contáctanos</a>
+    <!-- Sección Hero / Inicio -->
+    <section class="hero" id="inicio">
+        <div class="image-carousel">
+            <div class="carousel-track">
+                <div class="carousel-slide">
+                    <img src="assets/Ciberseguridad.jpg" alt="Ciberseguridad" class="carousel-img">
+                </div>
+                <div class="carousel-slide">
+                    <img src="assets/microscopio.jpg" alt="Investigación tecnológica" class="carousel-img">
+                </div>
+                <div class="carousel-slide">
+                    <img src="assets/sistemas-de-defensa.jpg" alt="Sistemas de defensa" class="carousel-img">
+                </div>
+                <!-- Duplicado para efecto de carrusel infinito -->
+                <div class="carousel-slide">
+                    <img src="assets/Ciberseguridad.jpg" alt="Ciberseguridad" class="carousel-img">
+                </div>
+                <div class="carousel-slide">
+                    <img src="assets/microscopio.jpg" alt="Investigación tecnológica" class="carousel-img">
                 </div>
             </div>
-            <div class="scroll-indicator">
-                <i class="fas fa-chevron-down"></i>
-            </div>
-        </section>
+            <div class="carousel-overlay"></div>
+        </div>
+        
+        <div class="container hero-content">
+            <h1 class="hero-title">
+                <span class="hero-line">Buscamos y creamos</span>
+                <span class="hero-line">la arquitectura de la</span>
+                <span class="hero-line highlight">evolución humana</span>
+            </h1>
+        </div>
+    </section>
 
-        <!-- Sección Sobre Nosotros -->
-        <section id="nosotros" class="section about-section">
-            <div class="section-header">
-                <h2 class="section-title">Sobre Nosotros</h2>
-                <div class="section-line"></div>
-            </div>
+    <!-- Sección Acerca de -->
+    <section class="section about-section" id="acerca">
+        <div class="container">
+            <h2 class="section-title">Acerca de Nosotros</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <p>Somos una empresa de vanguardia que integra investigación, consultoría y desarrollo tecnológico para crear soluciones innovadoras y transformadoras.</p>
-                    <p>Fundada con la visión de transformar el panorama tecnológico, Lilith Technologies se posiciona como un referente en la creación de arquitecturas tecnológicas avanzadas que impulsan la evolución humana y empresarial.</p>
-                    <p>Nuestra metodología combina rigor científico, creatividad estratégica y excelencia técnica para entregar resultados que superan las expectativas y establecen nuevos estándares en la industria.</p>
+                    <p class="about-paragraph">Somos una empresa de vanguardia que integra investigación aplicada, consultoría estratégica y desarrollo tecnológico para diseñar soluciones innovadoras con impacto real y sostenible.</p>
+                    
+                    <p class="about-paragraph">Nacida con la visión de redefinir el panorama tecnológico, Lilith Technologies fue fundada por <a href="https://imjustsebas.github.io" target="_blank" class="founder-link">Sebastian P</a>, estudiante con un perfil polímata, con el propósito de canalizar y poner a prueba un conjunto diverso de habilidades interdisciplinarias al servicio de la innovación, la experimentación y la resolución de problemas complejos.</p>
+                    
+                    <p class="about-paragraph">La empresa se consolida como un referente en la creación de arquitecturas tecnológicas avanzadas que catalizan la evolución tanto humana como empresarial.</p>
+                    
+                    <p class="about-paragraph">Nuestra metodología se fundamenta en el rigor científico, la creatividad estratégica y la excelencia técnica, permitiéndonos entregar resultados que no solo superan expectativas, sino que establecen nuevos estándares de calidad e innovación en la industria.</p>
                 </div>
-                <div class="about-features">
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <h3 class="feature-title">Investigación</h3>
-                        <p class="feature-desc">Exploramos las fronteras del conocimiento tecnológico para identificar oportunidades y tendencias emergentes.</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="feature-title">Consultoría</h3>
-                        <p class="feature-desc">Acompañamos a organizaciones en su transformación digital con estrategias personalizadas y efectivas.</p>
-                    </div>
-                    <div class="feature">
-                        <div class="feature-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="feature-title">Desarrollo</h3>
-                        <p class="feature-desc">Creamos soluciones tecnológicas robustas, escalables y orientadas al futuro.</p>
+                <div class="about-visual">
+                    <div class="visual-element">
+                        <div class="circle-element"></div>
+                        <div class="line-element"></div>
+                        <div class="square-element"></div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Sección Fundador -->
-        <section id="fundador" class="section founder-section">
-            <div class="section-header">
-                <h2 class="section-title">Nuestro Fundador</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="founder-content">
-                <div class="founder-info">
-                    <h3 class="founder-name">Sebastián Porras Solano</h3>
-                    <p class="founder-bio">Visionario tecnológico con una profunda comprensión de los sistemas complejos y la arquitectura de software. Con más de una década de experiencia en investigación y desarrollo de tecnologías emergentes, Sebastián fundó Lilith Technologies con el propósito de cerrar la brecha entre la teoría académica y la aplicación práctica en el mundo empresarial.</p>
-                    <p class="founder-bio">Su enfoque interdisciplinario y su compromiso con la excelencia técnica han posicionado a la empresa como un referente en soluciones tecnológicas innovadoras.</p>
-                    <a href="https://imjustsebas.github.io" target="_blank" class="btn btn-primary founder-portfolio">
-                        <i class="fas fa-external-link-alt"></i> Ver Portafolio
-                    </a>
-                </div>
-                <div class="founder-placeholder">
-                    <div class="placeholder-icon">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                    <p class="placeholder-text">Sebastián Porras Solano<br><span>Fundador & CEO</span></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección Servicios -->
-        <section id="servicios" class="section services-section">
-            <div class="section-header">
-                <h2 class="section-title">Nuestros Servicios</h2>
-                <div class="section-line"></div>
-            </div>
+    <!-- Sección Servicios -->
+    <section class="section services-section" id="servicios">
+        <div class="container">
+            <h2 class="section-title">Nuestros Servicios</h2>
             <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <h3 class="service-title">Investigación General</h3>
-                    <p class="service-desc">Estudios exhaustivos de tecnologías emergentes, análisis de mercado y tendencias innovadoras.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3 class="service-title">Consultorías Especializadas</h3>
-                    <p class="service-desc">Asesoramiento experto en transformación digital, estrategia tecnológica e innovación empresarial.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="service-title">Auditorías de Sistemas</h3>
-                    <p class="service-desc">Evaluación integral de infraestructuras tecnológicas, identificación de vulnerabilidades y recomendaciones de mejora.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h3 class="service-title">Desarrollo de Software</h3>
-                    <p class="service-desc">Creación de soluciones a medida, aplicaciones empresariales y sistemas inteligentes.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <h3 class="service-title">Gestión de Sistemas</h3>
-                    <p class="service-desc">Administración, mantenimiento y optimización de infraestructuras tecnológicas críticas.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
-                    <h3 class="service-title">Ciberseguridad</h3>
-                    <p class="service-desc">Protección de activos digitales, análisis de riesgos e implementación de estrategias de seguridad.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-satellite"></i>
-                    </div>
-                    <h3 class="service-title">Tecnología Espacial</h3>
-                    <p class="service-desc">Desarrollo de software y sistemas para aplicaciones aeroespaciales y satelitales.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <h3 class="service-title">Infraestructuras de Red</h3>
-                    <p class="service-desc">Diseño, implementación y optimización de redes empresariales y arquitecturas de conectividad.</p>
-                </div>
+                <!-- Cada servicio se generará dinámicamente con JS -->
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Sección Contacto -->
-        <section id="contacto" class="section contact-section">
-            <div class="section-header">
-                <h2 class="section-title">Contacto</h2>
-                <div class="section-line"></div>
-            </div>
+    <!-- Sección Contacto -->
+    <section class="section contact-section" id="contacto">
+        <div class="container">
+            <h2 class="section-title">Contacto</h2>
             <div class="contact-content">
-                <div class="contact-info">
-                    <p class="contact-description">Estamos listos para ayudarte a transformar tu visión tecnológica en realidad. Contáctanos para discutir cómo podemos colaborar en tu próximo proyecto.</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-text">
-                                <h4>Correo Electrónico</h4>
-                                <a href="mailto:tecnologieslilith@gmail.com">tecnologieslilith@gmail.com</a>
+                <div class="contact-text">
+                    <p class="contact-paragraph">Estamos preparados para convertir tu visión tecnológica en soluciones concretas y de alto impacto. Contáctanos para explorar cómo podemos colaborar estratégicamente en el desarrollo de tu próximo proyecto.</p>
+                    
+                    <div class="contact-info">
+                        <h3 class="contact-subtitle">Contacto</h3>
+                        <div class="email-container">
+                            <i class="fas fa-envelope contact-icon"></i>
+                            <div>
+                                <p class="contact-label">Correo electrónico:</p>
+                                <a href="mailto:tecnologieslilith@gmail.com" class="contact-email">tecnologieslilith@gmail.com</a>
                             </div>
                         </div>
-                    </div>
-                    <div class="contact-cta">
-                        <p>Envíanos un correo para programar una consulta inicial sin costo. Nuestro equipo te responderá en un máximo de 24 horas hábiles.</p>
+                        
+                        <p class="contact-note">Escríbenos para coordinar una consulta inicial sin costo. Nuestro equipo se pondrá en contacto contigo en un plazo máximo de 24 horas hábiles.</p>
                     </div>
                 </div>
                 <div class="contact-visual">
-                    <div class="visual-icon">
-                        <i class="fas fa-brain"></i>
+                    <div class="contact-animation">
+                        <div class="dot-grid"></div>
+                        <div class="pulse-ring"></div>
                     </div>
-                    <p class="visual-text">Conectando ideas, construyendo futuros.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h3>LILITH<span class="accent">TECH</span></h3>
-                    <p class="footer-tagline">La arquitectura de la evolución humana</p>
-                </div>
-                <div class="footer-links">
-                    <a href="#inicio">Inicio</a>
-                    <a href="#nosotros">Sobre Nosotros</a>
-                    <a href="#servicios">Servicios</a>
-                    <a href="#contacto">Contacto</a>
-                </div>
-                <div class="footer-copyright">
-                    <p>&copy; 2023 Lilith Technologies. Todos los derechos reservados.</p>
-                    <p class="footer-sub">Desarrollado con precisión y visión de futuro.</p>
-                </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-logo">
+                <span class="logo-text">LILITH</span>
+                <span class="logo-sub">TECHNOLOGIES</span>
             </div>
-        </footer>
-    </div>
+            <p class="footer-copyright">© 2023 Lilith Technologies. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
